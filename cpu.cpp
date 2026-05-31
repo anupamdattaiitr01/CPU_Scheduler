@@ -1,12 +1,14 @@
+#include <bits/stdc++.h>
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <queue>
 #include <iomanip>
+#include <map>
+typedef long long ll;
 
 using namespace std;
 
-// Structure to represent a process as used in the simulator project
 struct Process
 {
       int id;
@@ -18,19 +20,16 @@ struct Process
       int waitingTime;
 };
 
-// Function prototypes
 void displayResults(vector<Process> p, string algoName);
 void fcfs(vector<Process> p);
 void sjf(vector<Process> p);
 void roundRobin(vector<Process> p, int quantum);
 
-// Helper to sort processes by arrival time
 bool compareArrival(Process a, Process b)
 {
       return a.arrivalTime < b.arrivalTime;
 }
 
-// Function to display performance metrics: TAT and WT
 void displayResults(vector<Process> p, string algoName)
 {
       float totalWT = 0, totalTAT = 0;
@@ -52,7 +51,6 @@ void displayResults(vector<Process> p, string algoName)
       cout << "Average Turnaround Time: " << totalTAT / n << endl;
 }
 
-// 1. First-Come-First-Serve (FCFS) Implementation
 void fcfs(vector<Process> p)
 {
       sort(p.begin(), p.end(), compareArrival);
@@ -69,7 +67,6 @@ void fcfs(vector<Process> p)
       displayResults(p, "FCFS");
 }
 
-// 2. Shortest Job First (SJF) Implementation
 void sjf(vector<Process> p)
 {
       int n = p.size();
@@ -109,7 +106,6 @@ void sjf(vector<Process> p)
       displayResults(p, "SJF");
 }
 
-// 3. Round Robin (RR) Implementation with Time Quantum
 void roundRobin(vector<Process> p, int quantum)
 {
       int n = p.size();
@@ -131,7 +127,6 @@ void roundRobin(vector<Process> p, int quantum)
             p[i].remainingTime -= execute;
             currentTime += execute;
 
-            // Check for newly arrived processes
             for (int j = 0; j < n; j++)
             {
                   if (!mark[j] && p[j].arrivalTime <= currentTime)
